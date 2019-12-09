@@ -62,22 +62,24 @@ function fetchAndWrite() {
                     case '':                   return '5';
                     case '\r':                 return '6';
                     case null:                 return '7';
-                    default:                   return '0';
+                    default:                   return `0:${status}`; // return status string for debugging
                 }
             }
 
             /**
              * Write timestamp and return point statuses to logging file
+             * @param {String} plasticStatus Plastic and cans status string
+             * @param {String} glassStatus Glass status string
              * @returns {Promise} fs.writeFile
              */
-            function writeToFile() {
+            function writeToFile(plasticStatus, glassStatus) {
                 return fs.writeFile(
                     filename,
-                    `${timestamp},${getStatusOutput(point.cp_status_plastic_and_cans)},${getStatusOutput(point.cp_status_glass)}\n`,
+                    `${timestamp},${getStatusOutput(plasticStatus)},${getStatusOutput(glassStatus)}\n`,
                     {flag: 'a'}
                 )
                     .then(() => {
-                        console.log(nowString(), `Wrote to '${filename}'`)
+                        console.log(nowString(), `${id}: Wrote to '${filename}'`)
                     })
             }
 
@@ -114,14 +116,38 @@ function fetchAndWrite() {
                 return fs.mkdir(loggingDir, {recursive: true});
             }
 
-            return makeDirectory()
-                .then(createFile)
-                .then(writeToFile)
-                .catch((err) => {
-                    console.error(nowString(), err);
-                });
+            let message = null;
+            if(!store[id]) {
+                message = `${id}: No status stored`;
+            } else if(store[id].plastic !== point.cp_status_plastic_and_cans){
+                message = `${id}: Plastic status changed`;
+            } else if(store[id].glass !== point.cp_status_glass){
+                message = `${id}: Glass status changed`;
+            }
+
+            if(message) {
+                console.log(nowString(), message);
+                store[id] = {
+                    plastic: point.cp_status_plastic_and_cans,
+                    glass: point.cp_status_glass,
+                };
+
+                return makeDirectory()
+                    .then(createFile)
+                    .then(() => writeToFile(store[id].plastic, store[id].glass))
+                    .catch((err) => {
+                        console.error(nowString(), `${id}:`, err);
+                    });
+            } else {
+                console.log(nowString(), `${id}: No change`);
+                // No need to write to file, resolve immediately
+                return Promise.resolve();
+            }
         });
 }
+
+// Place to store statuses of return points for comparison
+const store = {};
 
 // Do initial fetch on startup
 fetchAndWrite();
