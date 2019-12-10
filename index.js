@@ -10,10 +10,10 @@ function nowString()
 }
 
 /**
- * Fetch return point data by id
+ * Scrape return point data by id from return and earn website
  * @param {String} pointId Id of return point
  */
-function fetchPointById(pointId) {
+function scrapePointStatusById(pointId) {
     return axios.get('https://returnandearn.org.au/return-points/?locationName=Strathfield')
         .then((response) => {
             const $ = cheerio.load(response.data, {xmlMode: false});
@@ -30,7 +30,31 @@ function fetchPointById(pointId) {
 
             const globalReturnPointsDataText = script.match(/ +var globalReturnPointsData = +({.*}) +.data;/);
             const globalReturnPointsData = JSON.parse(globalReturnPointsDataText[1]).data;
-            return globalReturnPointsData.find((point) => point.id === pointId);
+            const point = globalReturnPointsData.find((point) => point.id === pointId);
+            if(!point) {
+                return null;
+            } else {
+                return {
+                    plastic: point.cp_status_plastic_and_cans,
+                    glass: point.cp_status_glass,
+                };
+            }
+        });
+}
+
+/**
+ * Fetch return point status from myTomra API by point UUID
+ * UUIDs can be retrieved from https://api.au.prod.tomra.cloud/mytomra/v1.0/locations
+ * @param {String} uuid
+ */
+function fetchPointStatusByUUID(uuid) {
+    return axios.get(`https://api.au.prod.tomra.cloud/mytomra/v1.0/locations/details/${uuid}`)
+        .then((response) => {
+            const status = response.data.meta.status;
+            return {
+                plastic: status.plasticAndCans,
+                glass: status.glass,
+            }
         });
 }
 
@@ -41,11 +65,12 @@ function fetchPointById(pointId) {
 function fetchAndWrite() {
     const now = new Date();
     const id = '4179'; // Strathfield Council Carpark
+    const uuid = 'd4afdb0a-aeb1-3c3f-85fe-fb7929a12778'; // Strathfield Council Carpark
     const loggingDir = 'data';
     const filename = `${loggingDir}/${id}.csv`;
 
-    return fetchPointById(id)
-        .then((point) => {
+    return fetchPointStatusByUUID(uuid)
+        .then((status) => {
             // Milliseconds to seconds
             const timestamp = (now.getTime() / 1000).toFixed(0);
             /**
@@ -119,18 +144,15 @@ function fetchAndWrite() {
             let message = null;
             if(!store[id]) {
                 message = `${id}: No status stored`;
-            } else if(store[id].plastic !== point.cp_status_plastic_and_cans){
+            } else if(store[id].plastic !== status.plastic){
                 message = `${id}: Plastic status changed`;
-            } else if(store[id].glass !== point.cp_status_glass){
+            } else if(store[id].glass !== status.glass){
                 message = `${id}: Glass status changed`;
             }
 
             if(message) {
                 console.log(nowString(), message);
-                store[id] = {
-                    plastic: point.cp_status_plastic_and_cans,
-                    glass: point.cp_status_glass,
-                };
+                store[id] = status;
 
                 return makeDirectory()
                     .then(createFile)
