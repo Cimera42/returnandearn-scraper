@@ -173,8 +173,8 @@ const store = {};
 
 // Do initial fetch on startup
 fetchAndWrite();
-// Schedule every minute
+// Schedule every 30 seconds
 const job = schedule.scheduleJob({
-    second: 0,
-    minute: new schedule.Range(0, 59, 1)
+    second: new schedule.Range(0, 59, 30),
+    // minute: new schedule.Range(0, 59, 1)
 }, fetchAndWrite);
