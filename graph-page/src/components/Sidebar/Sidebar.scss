@@ -1,0 +1,69 @@
+@import "../../common.scss";
+
+$sidebar-burger-size: 40px;
+$sidebar-burger-margin: 5px;
+$sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
+
+.sidebar-wrapper {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-burger {
+    width: $sidebar-burger-size;
+    height: $sidebar-burger-size;
+    margin: $sidebar-burger-margin;
+
+    background: none;
+    border: none;
+    padding: 0;
+
+    border: $secondary $sidebar-burger-margin solid;
+    border-top: none;
+    border-right: none;
+    background: $trimary;
+
+    transition: transform $anim-time cubic-bezier(.5,.5,0,1.5);
+    &.shown {
+        transform: rotate(90deg);
+    }
+}
+
+.sidebar {
+    width: 0;
+    max-width: calc(100vw - #{$sidebar-burger-full});
+    height: 100vh;
+
+    transition: width $anim-time;
+    &.shown {
+        width: 250px;
+
+        .sidebar-slider {
+            transform: translateX(0);
+        }
+    }
+
+    .sidebar-slider {
+        position: fixed;
+        background: $primary;
+        width: 250px;
+        height: 100vh;
+        max-width: calc(100vw - #{$sidebar-burger-full});
+
+        box-sizing: border-box;
+        padding: 10px;
+
+        transition: transform $anim-time;
+        transform: translateX(-100%);
+    }
+}
+
+.sidebar-body {
+    position: relative;
+    padding: $sidebar-burger-full;
+}

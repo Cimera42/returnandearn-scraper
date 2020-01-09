@@ -1,0 +1,66 @@
+@import "../../common.scss";
+
+.tile-list {
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    .tile-item {
+        // $h: 50vh;
+        $p: 1;
+        // max-width: $h;
+        // max-height: $h * $p;
+        padding-bottom: 100% * $p;
+        position: relative;
+
+        .tile-item-sizer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            // background: white;
+            box-shadow: 0px 0px 5px black;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+
+        .thumbnail {
+            flex: 1;
+            position: relative;
+            min-height: 50%;
+
+            div {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+
+                &.contain {
+                    background-size: contain;
+                }
+            }
+        }
+
+        .details {
+            padding: 5px;
+            overflow: hidden;
+            // white-space: nowrap;
+            text-overflow: ellipsis;
+
+            .row {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+        }
+
+        h3 {
+            margin: 0;
+        }
+    }
+}

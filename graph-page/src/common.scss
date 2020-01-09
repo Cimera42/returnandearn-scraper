@@ -1,0 +1,7 @@
+$background: white;
+
+$primary: rgb(57, 54, 240);
+$secondary: adjust-color($primary, $hue: 120deg);
+$trimary: adjust-color($primary, $hue: 240deg);
+
+$anim-time: 0.25s;
