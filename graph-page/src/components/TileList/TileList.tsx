@@ -70,7 +70,7 @@ const TileList: React.FC = () => {
     ];
     return (
         <div>
-            <h1>Graph Viewer</h1>
+            <h1 className="page-title">Graph Viewer</h1>
             <div className="tile-list">
                 {items.map((v, i) => {
                     console.log(v);

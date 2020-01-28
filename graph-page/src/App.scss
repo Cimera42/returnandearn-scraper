@@ -1,12 +1,12 @@
 @import 'common.scss';
 
 html, body, #root {
+  background: $background;
   width: 100%;
   height: 100%;
 }
 
 .App {
-  background: $background;
   width: 100%;
   height: 100%;
 }

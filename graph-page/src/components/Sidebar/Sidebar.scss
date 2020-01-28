@@ -1,5 +1,8 @@
 @import "../../common.scss";
 
+$sidebar-spacing: 20px;
+$sidebar-width: 250px;
+
 $sidebar-burger-size: 40px;
 $sidebar-burger-margin: 5px;
 $sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
@@ -15,33 +18,34 @@ $sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
 }
 
 .sidebar-burger {
+    @include neumorphic-small;
+
+    position: fixed;
+
     width: $sidebar-burger-size;
     height: $sidebar-burger-size;
-    margin: $sidebar-burger-margin;
+    border-radius: $radius;
 
-    background: none;
+    margin: $sidebar-spacing;
+
     border: none;
-    padding: 0;
 
-    border: $secondary $sidebar-burger-margin solid;
-    border-top: none;
-    border-right: none;
-    background: $trimary;
-
-    transition: transform $anim-time cubic-bezier(.5,.5,0,1.5);
+    transition: box-shadow $anim-time, border $anim-time, border-radius $anim-time;
     &.shown {
-        transform: rotate(90deg);
+        box-shadow: none;
+        border: 1px solid invert($background);
+        border-radius: $radius 0;
     }
 }
 
 .sidebar {
     width: 0;
-    max-width: calc(100vw - #{$sidebar-burger-full});
+    max-width: calc(100vw);
     height: 100vh;
 
     transition: width $anim-time;
     &.shown {
-        width: 250px;
+        width: $sidebar-width;
 
         .sidebar-slider {
             transform: translateX(0);
@@ -49,21 +53,28 @@ $sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
     }
 
     .sidebar-slider {
+        @include neumorphic;
         position: fixed;
-        background: $primary;
-        width: 250px;
-        height: 100vh;
-        max-width: calc(100vw - #{$sidebar-burger-full});
+        top: $sidebar-spacing;
+        bottom: $sidebar-spacing;
+        left: $sidebar-spacing;
+        width: $sidebar-width;
+        max-width: calc(100vw - #{$sidebar-spacing * 2});
 
         box-sizing: border-box;
         padding: 10px;
 
         transition: transform $anim-time;
-        transform: translateX(-100%);
+        transform: translateX(calc(-100% - #{$shadow-offset + $shadow-blur}));
+
+        h1 {
+            margin-top: $sidebar-burger-size;
+        }
     }
 }
 
 .sidebar-body {
     position: relative;
-    padding: $sidebar-burger-full;
+    top: $sidebar-burger-size + $sidebar-spacing;
+    padding: $sidebar-spacing;
 }

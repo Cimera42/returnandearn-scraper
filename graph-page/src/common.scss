@@ -1,7 +1,28 @@
-$background: white;
+$background: #ecedf1;
 
 $primary: rgb(57, 54, 240);
 $secondary: adjust-color($primary, $hue: 120deg);
 $trimary: adjust-color($primary, $hue: 240deg);
 
 $anim-time: 0.25s;
+
+$shadow-offset: 10px;
+$shadow-blur: 20px;
+$radius: 20px;
+
+$shadow-offset-small: $shadow-offset / 2;
+$shadow-blur-small: $shadow-blur / 2;
+
+@mixin neumorphic {
+    background: $background;
+    box-shadow:
+        -$shadow-offset (-$shadow-offset) $shadow-blur #fafbff,
+        $shadow-offset $shadow-offset $shadow-blur #a6abbd;
+    border-radius: $radius;
+}
+
+@mixin neumorphic-small {
+    box-shadow:
+        -$shadow-offset-small (-$shadow-offset-small) $shadow-blur-small #fafbff,
+        $shadow-offset-small $shadow-offset-small $shadow-blur-small #a6abbd;
+}
