@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import './Sidebar.scss';
+import { Link } from 'react-router-dom';
 
 type SidebarProps = {shown: boolean};
 
@@ -12,6 +13,8 @@ const Sidebar: React.FC<SidebarProps> = ({shown}: SidebarProps) => {
         <div className={classes.join(' ')}>
             <div className="sidebar-slider">
                 <h1>Title</h1>
+                <Link to="/">Link 1</Link>
+                <Link to="/page">Link 2</Link>
             </div>
         </div>
     );

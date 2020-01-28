@@ -8,6 +8,7 @@ import f5 from '../../img/BlockHop_2017-06-26_23-28-15.png';
 import f6 from '../../img/firefox_2018-01-30_23-46-42.png';
 import f7 from '../../img/solvespace_2018-02-21_23-48-32.png';
 import f8 from '../../img/firefox_2018-04-08_18-07-45.png';
+import { Link } from "react-router-dom";
 
 const TileList: React.FC = () => {
     const items = [
@@ -73,22 +74,23 @@ const TileList: React.FC = () => {
             <h1 className="page-title">Graph Viewer</h1>
             <div className="tile-list">
                 {items.map((v, i) => {
-                    console.log(v);
                     return (
-                        <div className="tile-item" key={i}>
-                            <div className="tile-item-sizer">
-                                <div className="thumbnail">
-                                    <div className={v.contain ? 'contain' : ''} style={{backgroundImage: `url(${v.img})`}}></div>
-                                </div>
-                                <div className="details">
-                                    <div className="row">
-                                        <span>{v.date}</span>
-                                        <h3>{v.name}</h3>
+                        <Link to={`/page/${i}`}>
+                            <div className="tile-item" key={i}>
+                                <div className="tile-item-sizer">
+                                    <div className="thumbnail">
+                                        <div className={v.contain ? 'contain' : ''} style={{backgroundImage: `url(${v.img})`}}></div>
                                     </div>
-                                    {v.description}
+                                    <div className="details">
+                                        <div className="row">
+                                            <span>{v.date}</span>
+                                            <h3>{v.name}</h3>
+                                        </div>
+                                        {v.description}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     );
                 })}
             </div>
