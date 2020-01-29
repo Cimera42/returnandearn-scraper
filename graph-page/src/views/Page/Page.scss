@@ -1,0 +1,29 @@
+@import "../../common.scss";
+
+.page-title {
+    margin-top: 0;
+}
+
+.page-container {
+    margin: auto;
+    max-width: 800px;
+}
+
+.page-body {
+}
+
+.part {
+    &.image {
+        width: 100%;
+    }
+
+    &.side {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+
+        & > * {
+            overflow: hidden;
+        }
+    }
+}

@@ -3,9 +3,9 @@ import './App.scss';
 import Sidebar from './components/Sidebar/Sidebar';
 // import GraphViewer from './components/GraphViewer/GraphViewer';
 import TileList from './components/TileList/TileList';
-import Page from './components/Page/Page';
+import Page from './views/Page/Page';
 
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 const App: React.FC = () => {
   return (
