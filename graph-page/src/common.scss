@@ -6,8 +6,8 @@ $trimary: adjust-color($primary, $hue: 240deg);
 
 $anim-time: 0.25s;
 
-$shadow-offset: 10px;
-$shadow-blur: 20px;
+$shadow-offset: 5px;
+$shadow-blur: 10px;
 $radius: 20px;
 
 $shadow-offset-small: $shadow-offset / 2;
@@ -22,7 +22,16 @@ $shadow-blur-small: $shadow-blur / 2;
 }
 
 @mixin neumorphic-small {
+    background: $background;
     box-shadow:
         -$shadow-offset-small (-$shadow-offset-small) $shadow-blur-small #fafbff,
         $shadow-offset-small $shadow-offset-small $shadow-blur-small #a6abbd;
 }
+
+
+$sidebar-spacing: 20px;
+$sidebar-width: 250px;
+
+$sidebar-burger-size: 40px;
+$sidebar-burger-margin: 5px;
+$sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);

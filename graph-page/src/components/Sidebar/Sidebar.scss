@@ -1,12 +1,5 @@
 @import "../../common.scss";
 
-$sidebar-spacing: 20px;
-$sidebar-width: 250px;
-
-$sidebar-burger-size: 40px;
-$sidebar-burger-margin: 5px;
-$sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
-
 .sidebar-wrapper {
     z-index: 1;
     position: fixed;
@@ -29,12 +22,14 @@ $sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
     margin: $sidebar-spacing;
 
     border: none;
+    background-image: url('../../img/hamburger_icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
 
-    transition: box-shadow $anim-time, border $anim-time, border-radius $anim-time;
+    transition: box-shadow $anim-time * 2;
     &.shown {
         box-shadow: none;
-        border: 1px solid invert($background);
-        border-radius: $radius 0;
+        background-image: url('../../img/close_icon.svg');
     }
 }
 
@@ -65,7 +60,7 @@ $sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
         padding: 10px;
 
         transition: transform $anim-time;
-        transform: translateX(calc(-100% - #{$shadow-offset + $shadow-blur}));
+        transform: translateX(calc(-100% - #{$sidebar-spacing + $shadow-offset + $shadow-blur}));
 
         h1 {
             margin-top: $sidebar-burger-size;
@@ -75,6 +70,6 @@ $sidebar-burger-full: $sidebar-burger-size + ($sidebar-burger-margin * 2);
 
 .sidebar-body {
     position: relative;
-    top: $sidebar-burger-size + $sidebar-spacing;
+    // top: $sidebar-burger-size + $sidebar-spacing;
     padding: $sidebar-spacing;
 }
